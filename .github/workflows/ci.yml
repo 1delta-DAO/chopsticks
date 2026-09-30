@@ -6,14 +6,17 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  contents: read
+
 jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3
       with:
         submodules: recursive
-    - uses: actions/cache@v3
+    - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c  # v3
       with:
         path: |
           ~/.cargo/bin/
@@ -24,13 +27,13 @@ jobs:
           e2e-tests-db.sqlite
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Install toolchain
-      uses: dtolnay/rust-toolchain@nightly
+      uses: dtolnay/rust-toolchain@be39649afda95dbf70f87cce95f68b8d5797b296  # nightly
       with:
         toolchain: nightly-2022-10-30
         components: rustfmt
         target: wasm32-unknown-unknown
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610  # v3
       with:
         node-version: 18.x
         cache: 'yarn'
@@ -46,10 +49,10 @@ jobs:
     if: ${{ github.ref_name == 'master' }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3
       with:
         submodules: recursive
-    - uses: actions/cache@v3
+    - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c  # v3
       with:
         path: |
           ~/.cargo/bin/
@@ -59,13 +62,13 @@ jobs:
           executor/target/
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Install toolchain
-      uses: dtolnay/rust-toolchain@nightly
+      uses: dtolnay/rust-toolchain@be39649afda95dbf70f87cce95f68b8d5797b296  # nightly
       with:
         toolchain: nightly-2022-10-30
         components: rustfmt
         target: wasm32-unknown-unknown
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610  # v3
       with:
         node-version: 18.x
         cache: 'yarn'
@@ -78,10 +81,10 @@ jobs:
   web-test:
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3
         with:
           submodules: recursive
-      - uses: actions/cache@v3
+      - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c  # v3
         with:
           path: |
             ~/.cargo/bin/
@@ -91,13 +94,13 @@ jobs:
             executor/target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@be39649afda95dbf70f87cce95f68b8d5797b296  # nightly
         with:
           toolchain: nightly-2022-10-30
           components: rustfmt
           target: wasm32-unknown-unknown
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610  # v3
         with:
           node-version: 18.x
           cache: 'yarn'
@@ -107,7 +110,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: yarn workspace web-test run test
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5  # v3
         if: always()
         with:
           name: playwright-report
@@ -117,10 +120,10 @@ jobs:
   node-test:
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3
         with:
           submodules: recursive
-      - uses: actions/cache@v3
+      - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c  # v3
         with:
           path: |
             ~/.cargo/bin/
@@ -130,13 +133,13 @@ jobs:
             executor/target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@be39649afda95dbf70f87cce95f68b8d5797b296  # nightly
         with:
           toolchain: nightly-2022-10-30
           components: rustfmt
           target: wasm32-unknown-unknown
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610  # v3
         with:
           node-version: 18.x
           cache: 'yarn'

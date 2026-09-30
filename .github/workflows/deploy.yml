@@ -4,20 +4,17 @@ on:
   push:
     branches: [ master ]
 
-# Grant GITHUB_TOKEN the permissions required to make a Pages deployment
 permissions:
   contents: read
-  pages: write      # to deploy to Pages
-  id-token: write   # to verify the deployment originates from an appropriate source
 
 jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3
         with:
           submodules: recursive
-      - uses: actions/cache@v3
+      - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c  # v3
         with:
           path: |
             ~/.cargo/bin/
@@ -27,13 +24,13 @@ jobs:
             executor/target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: Install toolchain
-        uses: dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@be39649afda95dbf70f87cce95f68b8d5797b296  # nightly
         with:
           toolchain: nightly-2022-10-30
           components: rustfmt
           target: wasm32-unknown-unknown
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610  # v3
         with:
           node-version: 18.x
           cache: 'yarn'
@@ -46,13 +43,16 @@ jobs:
         run: |
           yarn docs:build
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@b8130d9ab958b325bbde9786d62f2c97a9885a0e  # v3
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@84bb4cd4b733d5c320c9c9cfbc354937524f4d64  # v1
         with:
           path: './dist'
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     needs: setup
     # Deploy to the github-pages environment
     environment:
@@ -62,4 +62,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@f27bcc15848fdcdcc02f01754eb838e44bcf389b  # v1
